@@ -1,0 +1,37 @@
+
+### Create New Memo (RequestBody)
+POST http://localhost:8080/memos
+Content-Type: application/json
+
+{
+    "title": "jiin",
+    "contents": "contents1"
+}
+
+### Get Memo1 (PathVariable)
+GET http://localhost:8080/memos/1
+
+
+### Get Memo1 (RequestParam)
+GET http://localhost:8080/memos?title=memo1
+
+
+
+
+### Create New User (RequestBody)
+POST http://localhost:8080/users
+Content-Type: application/json
+
+{
+    "id" : "jiin3",
+    "name" : "anjiin2",
+    "password": "zzin"
+
+}
+
+### Get User(PathVariable)
+
+GET http://localhost:8080/users/jiin2
+
+#### Get USER(RequestParm)
+GET http://localhost:8080/users?name=anjiin2
