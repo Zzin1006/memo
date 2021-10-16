@@ -25,7 +25,7 @@ public class Memo {
     private String userId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id")
+    @JoinColumn(name="user_id", insertable = false, updatable = false)
     User user;
 
     public Memo(String title, String contents, String userId){
