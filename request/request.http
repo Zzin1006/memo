@@ -4,8 +4,9 @@ POST http://localhost:8080/memos
 Content-Type: application/json
 
 {
-    "title": "jiin",
-    "contents": "contents1"
+    "title": "jiin2",
+    "contents": "contents1",
+    "userId": "jiin"
 }
 
 ### Get Memo1 (PathVariable)
@@ -13,7 +14,7 @@ GET http://localhost:8080/memos/1
 
 
 ### Get Memo1 (RequestParam)
-GET http://localhost:8080/memos?title=memo1
+GET http://localhost:8080/memos?title=jiin2
 
 
 
@@ -23,7 +24,7 @@ POST http://localhost:8080/users
 Content-Type: application/json
 
 {
-    "id" : "jiin3",
+    "id" : "jiin",
     "name" : "anjiin2",
     "password": "zzin"
 

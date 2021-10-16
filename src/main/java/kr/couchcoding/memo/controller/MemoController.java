@@ -16,23 +16,18 @@ public class MemoController {
     private MemoService memoService;
 
     @PostMapping() // POST /memos
-    public Memo createMemo(@RequestBody MemoDto memoDto){
+    public MemoDto createMemo(@RequestBody MemoDto memoDto){
         log.info("request : " + memoDto);
         return memoService.createMemo(memoDto);
     }
 
     @GetMapping("/{id}") // /memos/{id}
-    public Memo getMemoByPath(@PathVariable Long id){
+    public MemoDto getMemoByPath(@PathVariable Long id){
         return memoService.getMemo(id);
     }
 
-//    @GetMapping()
-//    public Memo getMemoByParams(@RequestParam Long id){
-//        return memoService.getMemo(id);
-//    }
-
     @GetMapping() // ?title={title}
-    public Memo getMemoByTitle(@RequestParam String title){
+    public MemoDto getMemoByTitle(@RequestParam String title){
         // call service
         return memoService.getMemoByTitle(title);
     }

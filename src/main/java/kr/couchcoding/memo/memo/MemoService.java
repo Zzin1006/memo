@@ -1,29 +1,34 @@
 package kr.couchcoding.memo.memo;
 
 import kr.couchcoding.memo.controller.dto.MemoDto;
-import kr.couchcoding.memo.controller.dto.UserDto;
-import kr.couchcoding.memo.user.User;
-import kr.couchcoding.memo.user.UserRepository;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MemoService {
     @Autowired
-    MemoRepository memoRepository;
+    private MemoRepository memoRepository;
+    @Autowired
+    private ModelMapper modelMapper;
 
-    public Memo createMemo(MemoDto memoDto){
+    public MemoDto createMemo(MemoDto memoDto){
         Memo memo = new Memo(memoDto.getTitle(), memoDto.getContents(), memoDto.getUserId());
-        return memoRepository.save(memo); //id 생성, DB 저장
+        memo = memoRepository.save(memo); //id 생성, DB 저장
+        return modelMapper.map(memo, MemoDto.class);
     }
 
-    public Memo getMemo(Long id){
-        return memoRepository.getById(id); //DB에 생성된 ID로 가져온다.
+    public MemoDto getMemo(Long id){
+        Memo memo = memoRepository.getById(id); //DB에 생성된 ID로 가져온다.
+        return modelMapper.map(memo, MemoDto.class);
     }
 
 
     // title로 가져오는 것 만들기
-    public Memo getMemoByTitle (String title){ return memoRepository.findByTitle(title); }
+    public MemoDto getMemoByTitle (String title){
+        Memo memo = memoRepository.findByTitle(title);
+        return modelMapper.map(memo, MemoDto.class);
+    }
 
 }
