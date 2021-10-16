@@ -5,6 +5,8 @@ import kr.couchcoding.memo.memo.Memo;
 import kr.couchcoding.memo.memo.MemoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 // 사용자의 요청을 받는 부분 (사용자의 요청을 받아서 Service를 호출한다)
@@ -27,9 +29,8 @@ public class MemoController {
     }
 
     @GetMapping() // ?title={title}
-    public MemoDto getMemoByTitle(@RequestParam String title){
+    public Page<MemoDto> getMemoByContainWord(@RequestParam String word, Pageable pageable){
         // call service
-        return memoService.getMemoByTitle(title);
+        return memoService.getMemosByContainWord(word, pageable);
     }
-
 }
