@@ -35,6 +35,6 @@ public class MemoController {
                                          Pageable pageable){
         // call service
         return memoService.getMemosByContainWordAndAuthor(word, author, pageable);
+        //return memoService.getMemosByContainWord(word, pageable);
     }
-
 }

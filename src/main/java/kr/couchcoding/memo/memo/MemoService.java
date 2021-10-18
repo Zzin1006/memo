@@ -40,45 +40,43 @@ public class MemoService {
         return modelMapper.map(memo, MemoDto.class);
     }
 
+    // 검색어를 포함하는 모든 메모를 가져온다.
     public Page<MemoDto> getMemosByContainWord(String word, Pageable pageable) {
         Page<Memo> memos = memoRepository.findByTitleContainingOrContentsContaining(word, word, pageable);
         return memos.map(memo -> modelMapper.map(memo, MemoDto.class));
     }
 
-    public Page<MemoDto> getMemosByContainWord2(String word, Pageable pageable){
-        Page<Memo> memos = null;
-        if(word != null && word.length() > 0){
-            memos = memoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
-                return criteriaBuilder.or(
-                        criteriaBuilder.like(root.get("title"), "%" + word + "%"),
-                        criteriaBuilder.like(root.get("contents"), "%" + word + "%")
-                );
-            }, pageable);
-        } else {
-            memos = memoRepository.findAll(pageable);
-        }
-
-        return memos.map(memo -> modelMapper.map(memo, MemoDto.class));
-    }
-
+    // 검색어를 포함하고 작성자가 author와 같은 모든 Memo를 가져온다.
     @Transactional(readOnly = true)
     public Page<MemoDto> getMemosByContainWordAndAuthor(String word, String author, Pageable pageable) {
+        // findAll 메서드는 검색 조건이 맞는 모든 데이터를 리턴합니다.
         Page<Memo> memos = memoRepository.findAll((root, criteriaQuery, criteriaBuilder) -> {
             log.info("word : " + word);
             log.info("author : " + author);
+
             List<Predicate> predicates = new java.util.ArrayList<>();
+            
+            // 단어 검색 조건이 정상적으로 왔으면 
             if(word != null && word.length() > 0){
-                Predicate wordPredicate = criteriaBuilder.like(root.get("title"), "%" + word + "%");
-                wordPredicate = criteriaBuilder.or(wordPredicate, criteriaBuilder.like(root.get("contents"), "%" + word + "%"));
+                // 제목이나 내용에 검색어가 포함된 것만 가져오기
+                Predicate wordPredicate = criteriaBuilder.or(
+                        criteriaBuilder.like(root.get("title"), "%" + word + "%"),
+                        criteriaBuilder.like(root.get("contents"), "%" + word + "%")
+                );
                 predicates.add(wordPredicate);
             }
+            // 작성자가 정상적으로 왔으면
             if(author != null && author.length() > 0){
-                predicates.add(criteriaBuilder.equal(root.get("userId"), author));
+                // 작성자가 검색어와 같은 것만 가져오기
+                Predicate authorPredicate = criteriaBuilder.equal(root.get("userId"), author);
+                predicates.add(authorPredicate);
             }
+            
+            // 모든 검색 조건을 and로 통합
             Predicate predicate = criteriaBuilder.and(predicates.toArray(new Predicate[0]));
-            log.info("predicate : " + predicate);
             return predicate;
         }, pageable);
+        // memos를 Dto로 변환
         return memos.map(memo -> modelMapper.map(memo, MemoDto.class));
     }
 

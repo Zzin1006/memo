@@ -14,9 +14,7 @@ GET http://localhost:8080/memos/1
 
 
 ### Get Memo1 (RequestParam)
-GET http://localhost:8080/memos?word=jiin&page=1&size=10
-
-
+GET http://localhost:8080/memos?word=jiin&page=0&size=10
 
 
 ### Create New User (RequestBody)

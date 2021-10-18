@@ -2,7 +2,6 @@ package kr.couchcoding.memo.controller;
 
 
 import kr.couchcoding.memo.controller.dto.UserDto;
-import kr.couchcoding.memo.memo.Memo;
 import kr.couchcoding.memo.user.User;
 import kr.couchcoding.memo.user.UserService;
 import lombok.extern.slf4j.Slf4j;
