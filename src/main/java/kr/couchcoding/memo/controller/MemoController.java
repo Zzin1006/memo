@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 
 // 사용자의 요청을 받는 부분 (사용자의 요청을 받아서 Service를 호출한다)
@@ -28,9 +29,12 @@ public class MemoController {
         return memoService.getMemo(id);
     }
 
-    @GetMapping() // ?title={title}
-    public Page<MemoDto> getMemoByContainWord(@RequestParam String word, Pageable pageable){
+    @GetMapping()
+    public Page<MemoDto> getMemoByFilter(@RequestParam(required = false) String word,
+                                         @RequestParam(required = false) String author,
+                                         Pageable pageable){
         // call service
-        return memoService.getMemosByContainWord(word, pageable);
+        return memoService.getMemosByContainWordAndAuthor(word, author, pageable);
     }
+
 }
